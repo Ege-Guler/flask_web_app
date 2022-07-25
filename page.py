@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request
-#from calc import robotnik
+
+
 
 app = Flask(__name__)
 
@@ -7,18 +8,21 @@ app = Flask(__name__)
 def home():
 	if request.method == "POST":
 
-		theta1 = request.form.get("theta1")
-		theta2 = request.form.get("theta2")
+		row1 = request.form.get("row1")
+		col1 = request.form.get("col1")
+		row2 = request.form.get("row2")
+		col2 = request.form.get("col2")
 
-		
-		
+		if row1 == col1:
+			return redirect(url_for("multiplication", r1 = row1, c1 = col1, r2 = row2, c2 = col2))
 
-		#result_list = robotnik.forwardKinematics(int(site_inputs[0]), int(site_inputs[0]))
-
-		return redirect(url_for("results", t1 = theta1, t2 = theta2))
 
 	else:	
 		return render_template("home.html")
+
+@app.route("/multiplication/<r1>/<c1>/<r2>/<c2>/")
+def multiplication(r1, c1, r2, c2):
+	return render_template("multiplication.html", r1 = r1, c1 = c1, r2 = r2, c2 = c2)
 
 @app.route("/results/<t1>/<t2>")
 def results(t1, t2):
